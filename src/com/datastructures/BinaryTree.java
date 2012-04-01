@@ -91,26 +91,14 @@ public class BinaryTree {
         }
         return node;
     }
-    public static void main(String ... args){
-        Node node = new Node(2);
-//        node = spopulate(node, "2(1)(3)");
-        node = spopulate(node, "5(2(1)(3))(9(7)(10))");
-        BinaryTree tree = new BinaryTree();
-        tree.root = node;
-        System.out.println(tree.lookup(3));
-        tree.insert(7);
-        System.out.println(tree.root);
-
-        Node node2 = new Node(5);
-        BinaryTree tree2 = new BinaryTree();
-        tree2.root = node2;
-        int [] seq = {2,1,3,9,7,10};
-        for(int i : seq)
-            tree2.insert(i);
-        System.out.println(tree2.root);
-    }
 
     /**TREE PROBLEMS*/
+
+    /**PROBLEM 1 - build the 123 tree:
+     *     2
+     *    / \
+     *   1   3
+    */
     public Node build123_1(){
         Node node1 = new Node(1);
         Node node2 = new Node(2);
@@ -132,5 +120,68 @@ public class BinaryTree {
         this.insert(1);
         this.insert(3);
         return root;
+    }
+
+    /**PROBLEM 2 - count number of nodes in the tree*/
+    public int size(){        return rsize(root);    }
+    private int rsize(Node node){
+        if(node == null)
+            return 0;
+        else
+            return 1 + rsize(node.left) + rsize(node.right);
+    }
+    /**PROBLEM 3 - calc the tree's max depth. empty tree = 0*/
+    public int maxDepth(){
+        return rmaxDepth(root);
+    }
+    private int rmaxDepth(Node node){
+        if(node == null)
+            return 0;
+        else
+            return Math.max(1 + rmaxDepth(node.left), 1 + rmaxDepth(node.right));
+    }
+//4) Min Value
+    public int minValue(){
+        Node node = root;
+        int min = Integer.MAX_VALUE;
+        while(node!=null){
+            min = node.data;
+            node = node.left;
+        }
+        return min;
+    }
+    //5. print in-order, 6. post-order
+    public void printTree(){        rprintTree(root);    }
+    public void rprintTree(Node node){
+        if(node==null)
+            return;
+        rprintTree(node.left);
+        System.out.println(node.data);
+        rprintTree(node.right);
+//post order        rprintTree(node.left);rprintTree(node.right);System.out.println(node.data);
+    }
+
+    //6. has Path sum - is there a path that sums to a particular value?
+    public boolean hasPathSum(int sum){ return rpathsum(root, sum); }
+    public boolean rpathsum(Node node, int sum){
+        if(node == null && sum == 0) //bingo
+            return true;
+        else if(node == null && sum != 0) //dead-end
+            return false;
+        return rpathsum(node.left, sum - node.data) ||
+                rpathsum(node.right, sum - node.data);
+    }
+    public static void main(String ... args){
+        Node node = new Node(2);
+//        node = spopulate(node, "2(1)(3)");
+        node = spopulate(node, "5(2(1)(3))(9(7)(10))");
+        BinaryTree tree = new BinaryTree();
+        tree.root = node;
+        System.out.println(tree.root);
+        System.out.println("Tree size = "+tree.size());
+        System.out.println("Tree max depth = "+tree.maxDepth());
+        System.out.println("Tree min = "+tree.minValue());
+//        tree.printTree();
+        System.out.println("Does tree have a path that sums to 8: " + tree.hasPathSum(8));
     }
 }
