@@ -141,14 +141,20 @@ public class BinaryTree {
             return Math.max(1 + rmaxDepth(node.left), 1 + rmaxDepth(node.right));
     }
 //4) Min Value
-    public int minValue(){
-        Node node = root;
-        int min = Integer.MAX_VALUE;
-        while(node!=null){
-            min = node.data;
+public int minValue(){return minValue(root);}
+    public int minValue(Node node){
+        while(node.left!=null){
             node = node.left;
         }
-        return min;
+        return node.data;
+    }
+//4b) Max Value
+    public int maxValue(){return maxValue(root);}
+    public int maxValue(Node node){
+        while(node.right!=null){
+            node = node.right;
+        }
+        return node.data;
     }
     //5. print in-order, 6. post-order
     public void printTree(){        rprintTree(root);    }
@@ -161,7 +167,7 @@ public class BinaryTree {
 //post order        rprintTree(node.left);rprintTree(node.right);System.out.println(node.data);
     }
 
-    //6. has Path sum - is there a path that sums to a particular value?
+    //7. has Path sum - is there a path that sums to a particular value?
     public boolean hasPathSum(int sum){ return rpathsum(root, sum); }
     public boolean rpathsum(Node node, int sum){
         if(node == null && sum == 0) //bingo
@@ -171,17 +177,84 @@ public class BinaryTree {
         return rpathsum(node.left, sum - node.data) ||
                 rpathsum(node.right, sum - node.data);
     }
+    //8. print all paths, from root to leaf
+    public void printPaths(){   rprintpaths(root, "");    }
+    private void rprintpaths(Node node, String pathSoFar){
+        if(node.left == null && node.right == null){ //leaf
+            System.out.println(pathSoFar +" "+ node.data);
+            return;
+        }
+            rprintpaths(node.left, pathSoFar +" "+ node.data);
+            rprintpaths(node.right, pathSoFar +" "+ node.data);
+    }
+    //11. are two trees equal(have the same nodes in the same order)?
+    public boolean equals(Node node2){        return requals(root, node2);    }
+    public boolean requals(Node node1, Node node2){
+        if(node1==null && node2==null)
+            return true;
+        else if(node1 == null || node2 == null) //one's null but not the other
+            return false;
+        else if(node1.data == node2.data)       //right && left
+            return requals(node1.left, node2.left) &&
+                    requals(node1.right, node2.right);
+        else //data doesn't match
+            return false;
+    }
+    //TODO 12. return number of possible trees with numbers 1...N
+    public int countTrees(int numKeys){
+        int sum = 0;
+        if(numKeys <= 1){
+            return 1;
+        } else if(numKeys == 2){
+            return 2;
+        }
+        else {
+            for(int i = 1; i <= numKeys; i++){
+                sum += countTrees(i) + countTrees(i-1);
+            }
+        }
+        return sum;
+    }
+    //13. inefficient check if a tree is a bst tree
+    public boolean isBST1(){ return isBST1(root);    }
+    public boolean isBST1(Node node){
+        if(node == null)
+            return true;
+
+        return  minValue(node)  <= node.data &&
+                maxValue(node) >= node.data &&
+                isBST1(node.left) && isBST1(node.right);
+    }
+    //14. efficient isBST
+    public boolean isBST(){ return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);    }
+    public boolean isBST(Node node, int min, int max){
+        if(node == null)
+            return true;
+
+        return  min <= node.data &&
+                max >= node.data &&
+                isBST(node.left, min, node.data) &&
+                isBST(node.right, node.data, max);
+    }
+    //15. the GREAT tree-list problem - turn a bst into a circular doublely linked list
+    // the list should be ordered from small to large
+
     public static void main(String ... args){
-        Node node = new Node(2);
-//        node = spopulate(node, "2(1)(3)");
-        node = spopulate(node, "5(2(1)(3))(9(7)(10))");
+        Node node1 = new Node(2);
+        Node node2 = new Node(5);
+        node1 = spopulate(node1, "2(1)(3)");
+        node2 = spopulate(node2, "5(2(1)(3))(9(7)(10))");
         BinaryTree tree = new BinaryTree();
-        tree.root = node;
+        tree.root = node2;
         System.out.println(tree.root);
         System.out.println("Tree size = "+tree.size());
         System.out.println("Tree max depth = "+tree.maxDepth());
         System.out.println("Tree min = "+tree.minValue());
+        System.out.println("Tree max = "+tree.maxValue());
 //        tree.printTree();
-        System.out.println("Does tree have a path that sums to 8: " + tree.hasPathSum(8));
+//        System.out.println("Does tree have a path that sums to 8: " + tree.hasPathSum(8));
+//        tree.printPaths();
+//        System.out.println("tree1 == tree2? "+tree.equals(tree.build123_1()));
+        System.out.println(tree.isBST());
     }
 }
