@@ -239,21 +239,31 @@ public int minValue(){return minValue(root);}
     //15. the GREAT tree-list problem - turn a bst into a circular doublely linked list
     // the list should be ordered from small to large
     public void treeToList(){
-        rtreetolist(root, null);
+        rtreetolist(root, null, null);
     }
-    public void rtreetolist(Node node, Node prev){
-        if(node==null || prev==null)
+    public void rtreetolist(Node node, Node prev, Node next){
+        if(node==null)
             return;
-        rtreetolist(node.left, node);
-        link(node, prev);
-        rtreetolist(node.right, node);
+        rtreetolist(node.left, prev, node); //you're to my left, so i'm your next
+        rtreetolist(node.right, node, next);//you're to my right, so i'm your prev
+        if(null != node.left)
+            prev = node.left;
+        if(null != node.right)
+            next = node.right;
+        link(prev, node);
+        link(node, next);
     }
-    public void link(Node node2, Node node1){
-        node1.right = node2;
-        node2.left = node1;
+    private void link(Node prev, Node next){
+        prev.right = next;
+        next.left = prev;
     }
-
-
+    public void printList(){printList(root);}
+    public void printList(Node node){
+        while(node.right!=null){
+            System.out.print(node.data + " ");
+            node = node.right;
+        }
+    }
     public static void main(String ... args){
         Node node1 = new Node(2);
         Node node2 = new Node(5);
@@ -271,5 +281,7 @@ public int minValue(){return minValue(root);}
 //        tree.printPaths();
 //        System.out.println("tree1 == tree2? "+tree.equals(tree.build123_1()));
         System.out.println(tree.isBST());
+        tree.treeToList();
+        tree.printList();
     }
 }
