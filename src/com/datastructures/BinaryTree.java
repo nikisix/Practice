@@ -141,20 +141,32 @@ public class BinaryTree {
             return Math.max(1 + rmaxDepth(node.left), 1 + rmaxDepth(node.right));
     }
 //4) Min Value
-public int minValue(){return minValue(root);}
-    public int minValue(Node node){
+    public Node minNode(){return minNode(root);}
+    public Node minNode(Node node){
         while(node.left!=null){
             node = node.left;
         }
-        return node.data;
+        return node;
+    }
+    public int minValue(){
+        return minNode(root).data;
+    }
+    public int minValue(Node node){
+        return minNode(node).data;
     }
 //4b) Max Value
-    public int maxValue(){return maxValue(root);}
-    public int maxValue(Node node){
+    public Node maxNode(){return maxNode(root);}
+    public Node maxNode(Node node){
         while(node.right!=null){
             node = node.right;
         }
-        return node.data;
+        return node;
+    }
+    public int maxValue(){
+        return maxNode(root).data;
+    }
+    public int maxValue(Node node){
+        return maxNode(node).data;
     }
     //5. print in-order, 6. post-order
     public void printTree(){        rprintTree(root);    }
@@ -238,8 +250,13 @@ public int minValue(){return minValue(root);}
     }
     //15. the GREAT tree-list problem - turn a bst into a circular doublely linked list
     // the list should be ordered from small to large
+    //return a pointer to the beginning of the list
     public void treeToList(){
-        rtreetolist(root, null, null);
+        Node min = minNode();
+        Node max = maxNode();
+        rtreetolist(root, new Node(Integer.MIN_VALUE), new Node(Integer.MAX_VALUE));
+        link(max, min);     //link beginning to end
+        root = min;         //change root to the beginning of the list
     }
     public void rtreetolist(Node node, Node prev, Node next){
         if(node==null)
@@ -257,18 +274,22 @@ public int minValue(){return minValue(root);}
         prev.right = next;
         next.left = prev;
     }
+
     public void printList(){printList(root);}
     public void printList(Node node){
-        while(node.right!=null){
-            System.out.print(node.data + " ");
-            node = node.right;
+        Node cur = new Node(0);
+        cur = node;
+        while(cur.right!=node){
+            System.out.print(cur.data + " ");
+            cur = cur.right;
         }
     }
     public static void main(String ... args){
         Node node1 = new Node(2);
         Node node2 = new Node(5);
         node1 = spopulate(node1, "2(1)(3)");
-        node2 = spopulate(node2, "5(2(1)(3))(9(7)(10))");
+//        node2 = spopulate(node2, "5(2(1)(3))(9(7)(10))");
+        node2 = spopulate(node2, "5(2(-1)(3))(9(7(6)(8))(10(9)(12)))");
         BinaryTree tree = new BinaryTree();
         tree.root = node2;
         System.out.println(tree.root);
