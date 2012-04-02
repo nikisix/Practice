@@ -254,7 +254,7 @@ public class BinaryTree {
     public void treeToList(){
         Node min = minNode();
         Node max = maxNode();
-        rtreetolist(root, new Node(Integer.MIN_VALUE), new Node(Integer.MAX_VALUE));
+        rtreetolist(root, new Node(0), new Node(0));
         link(max, min);     //link beginning to end
         root = min;         //change root to the beginning of the list
     }
@@ -283,13 +283,14 @@ public class BinaryTree {
             System.out.print(cur.data + " ");
             cur = cur.right;
         }
+        System.out.println(cur.data + " ");
     }
     public static void main(String ... args){
         Node node1 = new Node(2);
         Node node2 = new Node(5);
-        node1 = spopulate(node1, "2(1)(3)");
+        node2 = spopulate(node1, "2(1)(3)");
 //        node2 = spopulate(node2, "5(2(1)(3))(9(7)(10))");
-        node2 = spopulate(node2, "5(2(-1)(3))(9(7(6)(8))(10(9)(12)))");
+//        node2 = spopulate(node2, "5(2(-1)(3))(9(7(6)(8))(10(9)(12)))");
         BinaryTree tree = new BinaryTree();
         tree.root = node2;
         System.out.println(tree.root);
