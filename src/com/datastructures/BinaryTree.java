@@ -238,6 +238,21 @@ public int minValue(){return minValue(root);}
     }
     //15. the GREAT tree-list problem - turn a bst into a circular doublely linked list
     // the list should be ordered from small to large
+    public void treeToList(){
+        rtreetolist(root, null);
+    }
+    public void rtreetolist(Node node, Node prev){
+        if(node==null || prev==null)
+            return;
+        rtreetolist(node.left, node);
+        link(node, prev);
+        rtreetolist(node.right, node);
+    }
+    public void link(Node node2, Node node1){
+        node1.right = node2;
+        node2.left = node1;
+    }
+
 
     public static void main(String ... args){
         Node node1 = new Node(2);
