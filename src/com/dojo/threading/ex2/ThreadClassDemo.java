@@ -22,7 +22,6 @@ public class ThreadClassDemo
       System.out.println("Starting thread3...");
       Thread thread3 = new GuessANumber(27);
       thread3.start();
-//      Thread.yield();
       try
       {
          thread3.join();
