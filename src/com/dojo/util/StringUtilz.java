@@ -1,4 +1,4 @@
-package com.util;
+package com.dojo.util;
 
 /**          * User: zen         */
 public class StringUtilz {

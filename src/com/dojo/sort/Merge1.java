@@ -1,4 +1,4 @@
-package com.sort;
+package com.dojo.sort;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com;
+package com.dojo;
 
 public class Currency {
     public static void main(String ... args){

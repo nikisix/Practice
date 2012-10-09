@@ -1,6 +1,6 @@
-package com.datastructures;
+package com.dojo.datastructures;
 
-import com.util.StringUtilz;
+import com.dojo.util.StringUtilz;
 
 /** * User: zen */
 public class btree {

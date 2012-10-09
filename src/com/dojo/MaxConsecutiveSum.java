@@ -1,4 +1,4 @@
-package com;
+package com.dojo;
 
 import java.util.Arrays;
 

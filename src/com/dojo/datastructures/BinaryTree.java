@@ -1,5 +1,5 @@
-package com.datastructures;
-import com.util.StringUtilz;
+package com.dojo.datastructures;
+import com.dojo.util.StringUtilz;
 
 public class BinaryTree {
     private Node root;

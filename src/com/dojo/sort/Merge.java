@@ -1,4 +1,4 @@
-package com.sort;
+package com.dojo.sort;
 
 /** * User: ntomasino */
 public class Merge {

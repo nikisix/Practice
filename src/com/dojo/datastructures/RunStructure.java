@@ -1,4 +1,4 @@
-package com.datastructures;
+package com.dojo.datastructures;
 
 /**
  * Created with IntelliJ IDEA.
